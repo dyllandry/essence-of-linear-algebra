@@ -2,6 +2,12 @@ fn main() {
     println!("Hello, world!");
 }
 
+// video: https://youtu.be/kYB8IZa5AuE?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=364
+struct Matrix2D {
+    v1: Vector2D, // [ v1.x, v2.x ]
+    v2: Vector2D, // [ v1.y, v2.y ]
+}
+
 // video: https://www.youtube.com/watch?v=fNk_zzaMoSs&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=2
 #[derive(PartialEq, Debug)]
 struct Vector2D {
@@ -16,6 +22,11 @@ impl Vector2D {
             x: scalar * self.x,
             y: scalar * self.y,
         };
+    }
+
+    // video: https://youtu.be/kYB8IZa5AuE?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=210
+    fn transform(&self, m: Matrix2D) -> Vector2D {
+        return m.v1.scale(self.x) + m.v2.scale(self.y);
     }
 }
 
@@ -110,6 +121,18 @@ mod tests {
         let scalar = 3.0;
         let expected = Vector2D { x: 3.0, y: 6.0 };
         let result = v.scale(scalar);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn can_transform_a_vector_2d() {
+        let v = Vector2D { x: 1.0, y: 1.0 };
+        let rotate_180 = Matrix2D {
+            v1: Vector2D { x: -1.0, y: 0.0 },
+            v2: Vector2D { x: 0.0, y: -1.0 },
+        };
+        let expected = Vector2D { x: -1.0, y: -1.0 };
+        let result = v.transform(rotate_180);
         assert_eq!(result, expected);
     }
 

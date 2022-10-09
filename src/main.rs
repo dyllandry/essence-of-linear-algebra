@@ -112,120 +112,131 @@ impl std::ops::Sub for Vector3D {
 mod tests {
     use crate::*;
 
-    #[test]
-    fn can_add_two_2d_vectors() {
-        let v1 = Vector2D { x: 1.0, y: 2.0 };
-        let v2 = Vector2D { x: 2.0, y: 3.0 };
-        let result = v1 + v2;
-        let expected = Vector2D { x: 3.0, y: 5.0 };
-        assert_eq!(result, expected);
+    mod vector_2d {
+        use crate::*;
+        #[test]
+        fn can_add_two_2d_vectors() {
+            let v1 = Vector2D { x: 1.0, y: 2.0 };
+            let v2 = Vector2D { x: 2.0, y: 3.0 };
+            let result = v1 + v2;
+            let expected = Vector2D { x: 3.0, y: 5.0 };
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn can_subtract_two_2d_vectors() {
+            let v1 = Vector2D { x: 2.0, y: 3.0 };
+            let v2 = Vector2D { x: 1.0, y: 1.0 };
+            let result = v1 - v2;
+            let expected = Vector2D { x: 1.0, y: 2.0 };
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn can_scale_a_vector_2d() {
+            let v = Vector2D { x: 1.0, y: 2.0 };
+            let scalar = 3.0;
+            let expected = Vector2D { x: 3.0, y: 6.0 };
+            let result = v.scale(scalar);
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn can_transform_a_vector_2d() {
+            let v = Vector2D { x: 1.0, y: 1.0 };
+            let rotate_180 = Matrix2D {
+                v1: Vector2D { x: -1.0, y: 0.0 },
+                v2: Vector2D { x: 0.0, y: -1.0 },
+            };
+            let expected = Vector2D { x: -1.0, y: -1.0 };
+            let result = v.transform(rotate_180);
+            assert_eq!(result, expected);
+        }
     }
 
-    #[test]
-    fn can_subtract_two_2d_vectors() {
-        let v1 = Vector2D { x: 2.0, y: 3.0 };
-        let v2 = Vector2D { x: 1.0, y: 1.0 };
-        let result = v1 - v2;
-        let expected = Vector2D { x: 1.0, y: 2.0 };
-        assert_eq!(result, expected);
+    mod vector_3d {
+        use crate::*;
+
+        #[test]
+        fn can_add_two_3d_vectors() {
+            let v1 = Vector3D {
+                x: 1.0,
+                y: 2.0,
+                z: 3.0,
+            };
+            let v2 = Vector3D {
+                x: 2.0,
+                y: 3.0,
+                z: 6.0,
+            };
+            let result = v1 + v2;
+            let expected = Vector3D {
+                x: 3.0,
+                y: 5.0,
+                z: 9.0,
+            };
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn can_subtract_two_3d_vectors() {
+            let v1 = Vector3D {
+                x: 2.0,
+                y: 5.0,
+                z: 7.0,
+            };
+            let v2 = Vector3D {
+                x: 1.0,
+                y: 2.0,
+                z: 3.0,
+            };
+            let result = v1 - v2;
+            let expected = Vector3D {
+                x: 1.0,
+                y: 3.0,
+                z: 4.0,
+            };
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn can_scale_a_vector_3d() {
+            let v = Vector3D {
+                x: 1.0,
+                y: 2.0,
+                z: 3.0,
+            };
+            let scalar = 3.0;
+            let expected = Vector3D {
+                x: 3.0,
+                y: 6.0,
+                z: 9.0,
+            };
+            let result = v.scale(scalar);
+            assert_eq!(result, expected);
+        }
     }
 
-    #[test]
-    fn can_scale_a_vector_2d() {
-        let v = Vector2D { x: 1.0, y: 2.0 };
-        let scalar = 3.0;
-        let expected = Vector2D { x: 3.0, y: 6.0 };
-        let result = v.scale(scalar);
-        assert_eq!(result, expected);
-    }
+    mod matrix_2d {
+        use crate::*;
 
-    #[test]
-    fn can_transform_a_vector_2d() {
-        let v = Vector2D { x: 1.0, y: 1.0 };
-        let rotate_180 = Matrix2D {
-            v1: Vector2D { x: -1.0, y: 0.0 },
-            v2: Vector2D { x: 0.0, y: -1.0 },
-        };
-        let expected = Vector2D { x: -1.0, y: -1.0 };
-        let result = v.transform(rotate_180);
-        assert_eq!(result, expected);
-    }
-
-    #[test]
-    fn can_add_two_3d_vectors() {
-        let v1 = Vector3D {
-            x: 1.0,
-            y: 2.0,
-            z: 3.0,
-        };
-        let v2 = Vector3D {
-            x: 2.0,
-            y: 3.0,
-            z: 6.0,
-        };
-        let result = v1 + v2;
-        let expected = Vector3D {
-            x: 3.0,
-            y: 5.0,
-            z: 9.0,
-        };
-        assert_eq!(result, expected);
-    }
-
-    #[test]
-    fn can_subtract_two_3d_vectors() {
-        let v1 = Vector3D {
-            x: 2.0,
-            y: 5.0,
-            z: 7.0,
-        };
-        let v2 = Vector3D {
-            x: 1.0,
-            y: 2.0,
-            z: 3.0,
-        };
-        let result = v1 - v2;
-        let expected = Vector3D {
-            x: 1.0,
-            y: 3.0,
-            z: 4.0,
-        };
-        assert_eq!(result, expected);
-    }
-
-    #[test]
-    fn can_scale_a_vector_3d() {
-        let v = Vector3D {
-            x: 1.0,
-            y: 2.0,
-            z: 3.0,
-        };
-        let scalar = 3.0;
-        let expected = Vector3D {
-            x: 3.0,
-            y: 6.0,
-            z: 9.0,
-        };
-        let result = v.scale(scalar);
-        assert_eq!(result, expected);
-    }
-
-    #[test]
-    fn can_multiply_two_2d_matrices() {
-        let rotate_90 = Matrix2D {
-            v1: Vector2D { x: 0.0, y: -1.0 },
-            v2: Vector2D { x: 1.0, y: 0.0 },
-        };
-        let scale_x_by_2 = Matrix2D {
-            v1: Vector2D { x: 2.0, y: 0.0 },
-            v2: Vector2D { x: 0.0, y: 1.0 },
-        };
-        // expected result of rotating then scaling
-        let expected = Matrix2D {
-            v1: Vector2D { x: 0.0, y: -1.0 },
-            v2: Vector2D { x: 2.0, y: 0.0 },
-        };
-        let result = scale_x_by_2 * rotate_90;
-        assert_eq!(result, expected);
+        #[test]
+        fn can_multiply_two_2d_matrices() {
+            let rotate_90 = Matrix2D {
+                v1: Vector2D { x: 0.0, y: -1.0 },
+                v2: Vector2D { x: 1.0, y: 0.0 },
+            };
+            let scale_x_by_2 = Matrix2D {
+                v1: Vector2D { x: 2.0, y: 0.0 },
+                v2: Vector2D { x: 0.0, y: 1.0 },
+            };
+            // expected result of rotating then scaling
+            let expected = Matrix2D {
+                v1: Vector2D { x: 0.0, y: -1.0 },
+                v2: Vector2D { x: 2.0, y: 0.0 },
+            };
+            let result = scale_x_by_2 * rotate_90;
+            assert_eq!(result, expected);
+        }
     }
 }

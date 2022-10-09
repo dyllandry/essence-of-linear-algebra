@@ -9,6 +9,16 @@ struct Vector2D {
     y: f32,
 }
 
+impl Vector2D {
+    // video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=414
+    fn scale(&self, scalar: f32) -> Vector2D {
+        return Vector2D {
+            x: scalar * self.x,
+            y: scalar * self.y,
+        };
+    }
+}
+
 // video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=276
 impl std::ops::Add for Vector2D {
     type Output = Vector2D;
@@ -30,23 +40,23 @@ impl std::ops::Sub for Vector2D {
     }
 }
 
-// video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=414
-impl std::ops::Mul<f32> for Vector2D {
-    type Output = Vector2D;
-    fn mul(self, scalar: f32) -> Self::Output {
-    return Vector2D {
-            x: self.x * scalar,
-            y: self.y * scalar,
-    };
-}
-}
-
 // video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=243
 #[derive(PartialEq, Debug)]
 struct Vector3D {
     x: f32,
     y: f32,
     z: f32,
+}
+
+impl Vector3D {
+    // video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=414
+    fn scale(&self, scalar: f32) -> Vector3D {
+        return Vector3D {
+            x: scalar * self.x,
+            y: scalar * self.y,
+            z: scalar * self.z,
+        };
+    }
 }
 
 // video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=276
@@ -69,18 +79,6 @@ impl std::ops::Sub for Vector3D {
             y: self.y - rhs.y,
             z: self.z - rhs.z,
         };
-    }
-}
-
-// video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=414
-impl std::ops::Mul<f32> for Vector3D {
-    type Output = Vector3D;
-    fn mul(self, scalar: f32) -> Self::Output {
-    return Vector3D {
-            x: self.x * scalar,
-            y: self.y * scalar,
-            z: self.z * scalar,
-    };
     }
 }
 
@@ -111,7 +109,7 @@ mod tests {
         let v = Vector2D { x: 1.0, y: 2.0 };
         let scalar = 3.0;
         let expected = Vector2D { x: 3.0, y: 6.0 };
-        let result = v * scalar;
+        let result = v.scale(scalar);
         assert_eq!(result, expected);
     }
 
@@ -170,7 +168,7 @@ mod tests {
             y: 6.0,
             z: 9.0,
         };
-        let result = v * scalar;
+        let result = v.scale(scalar);
         assert_eq!(result, expected);
     }
 }

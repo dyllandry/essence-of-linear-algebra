@@ -10,3 +10,5 @@ Going through the YouTube playlist "[3Blue1Brown: Linear Alg](https://www.youtub
   - Linear transformations
   - Matrices
   - Transforms (Matrix vector multiplication)
+- [Chapter 4: Matrix multiplication as composition](https://www.youtube.com/watch?v=XkY2DOUCWMU&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=5)
+  - matrix multiplication

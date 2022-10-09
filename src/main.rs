@@ -3,13 +3,28 @@ fn main() {
 }
 
 // video: https://youtu.be/kYB8IZa5AuE?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=364
+#[derive(Copy, Clone, PartialEq, Debug)]
 struct Matrix2D {
     v1: Vector2D, // [ v1.x, v2.x ]
     v2: Vector2D, // [ v1.y, v2.y ]
 }
 
+// video: https://youtu.be/XkY2DOUCWMU?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=119
+impl std::ops::Mul for Matrix2D {
+    type Output = Matrix2D;
+    fn mul(self, rhs: Self) -> Self::Output {
+        let left_m = self;
+        let right_m = rhs;
+
+        return Matrix2D {
+            v1: right_m.v1.transform(left_m),
+            v2: right_m.v2.transform(left_m),
+        };
+    }
+}
+
 // video: https://www.youtube.com/watch?v=fNk_zzaMoSs&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=2
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Copy, Clone)]
 struct Vector2D {
     x: f32,
     y: f32,
@@ -192,6 +207,25 @@ mod tests {
             z: 9.0,
         };
         let result = v.scale(scalar);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn can_multiply_two_2d_matrices() {
+        let rotate_90 = Matrix2D {
+            v1: Vector2D { x: 0.0, y: -1.0 },
+            v2: Vector2D { x: 1.0, y: 0.0 },
+        };
+        let scale_x_by_2 = Matrix2D {
+            v1: Vector2D { x: 2.0, y: 0.0 },
+            v2: Vector2D { x: 0.0, y: 1.0 },
+        };
+        // expected result of rotating then scaling
+        let expected = Matrix2D {
+            v1: Vector2D { x: 0.0, y: -1.0 },
+            v2: Vector2D { x: 2.0, y: 0.0 },
+        };
+        let result = scale_x_by_2 * rotate_90;
         assert_eq!(result, expected);
     }
 }

@@ -12,3 +12,5 @@ Going through the YouTube playlist "[3Blue1Brown: Linear Alg](https://www.youtub
   - Transforms (Matrix vector multiplication)
 - [Chapter 4: Matrix multiplication as composition](https://www.youtube.com/watch?v=XkY2DOUCWMU&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=5)
   - matrix multiplication
+- [Chapter 5: Three-dimensional linear transformations](https://www.youtube.com/watch?v=rHLEWRxRGiM&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=6)
+  - transforming a 3d vector by a 3x3 matrix

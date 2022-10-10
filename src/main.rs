@@ -10,6 +10,20 @@ struct Matrix3 {
     col3: Vector3,
 }
 
+// video: https://www.youtube.com/watch?v=rHLEWRxRGiM&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=6
+impl std::ops::Mul for Matrix3 {
+    type Output = Matrix3;
+    fn mul(self, rhs: Self) -> Self::Output {
+        let left_m = self;
+        let right_m = rhs;
+        return Matrix3 {
+            col1: right_m.col1.transform(left_m),
+            col2: right_m.col2.transform(left_m),
+            col3: right_m.col3.transform(left_m),
+        };
+    }
+}
+
 // video: https://youtu.be/kYB8IZa5AuE?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=364
 #[derive(Copy, Clone, PartialEq, Debug)]
 struct Matrix2 {
@@ -290,6 +304,67 @@ mod tests {
                 col2: Vector2 { x: 2.0, y: 0.0 },
             };
             let result = scale_x_by_2 * rotate_90;
+            assert_eq!(result, expected);
+        }
+    }
+
+    mod matrix3 {
+        use crate::*;
+
+        #[test]
+        fn can_multiply_two_matrix3() {
+            let right_m = Matrix3 {
+                col1: Vector3 {
+                    x: 3.0,
+                    y: 2.0,
+                    z: 4.0,
+                },
+                col2: Vector3 {
+                    x: 1.0,
+                    y: 4.0,
+                    z: 7.0,
+                },
+                col3: Vector3 {
+                    x: 2.0,
+                    y: 5.0,
+                    z: 8.0,
+                },
+            };
+            let left_m = Matrix3 {
+                col1: Vector3 {
+                    x: 0.0,
+                    y: 1.0,
+                    z: 3.0,
+                },
+                col2: Vector3 {
+                    x: 2.0,
+                    y: 6.0,
+                    z: 7.0,
+                },
+                col3: Vector3 {
+                    x: 5.0,
+                    y: 3.0,
+                    z: 0.0,
+                },
+            };
+            let expected = Matrix3 {
+                col1: Vector3 {
+                    x: 24.0,
+                    y: 27.0,
+                    z: 23.0,
+                },
+                col2: Vector3 {
+                    x: 43.0,
+                    y: 46.0,
+                    z: 31.0,
+                },
+                col3: Vector3 {
+                    x: 50.0,
+                    y: 56.0,
+                    z: 41.0,
+                },
+            };
+            let result = left_m * right_m;
             assert_eq!(result, expected);
         }
     }

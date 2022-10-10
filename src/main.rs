@@ -2,6 +2,14 @@ fn main() {
     println!("Hello, world!");
 }
 
+// video: https://www.youtube.com/watch?v=rHLEWRxRGiM&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=6
+#[derive(Copy, Clone, PartialEq, Debug)]
+struct Matrix3 {
+    col1: Vector3,
+    col2: Vector3,
+    col3: Vector3,
+}
+
 // video: https://youtu.be/kYB8IZa5AuE?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=364
 #[derive(Copy, Clone, PartialEq, Debug)]
 struct Matrix2 {
@@ -67,7 +75,7 @@ impl std::ops::Sub for Vector2 {
 }
 
 // video: https://youtu.be/fNk_zzaMoSs?list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&t=243
-#[derive(PartialEq, Debug)]
+#[derive(Copy, Clone, PartialEq, Debug)]
 struct Vector3 {
     x: f32,
     y: f32,
@@ -81,6 +89,18 @@ impl Vector3 {
             x: scalar * self.x,
             y: scalar * self.y,
             z: scalar * self.z,
+        };
+    }
+
+    // video: https://www.youtube.com/watch?v=rHLEWRxRGiM&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=6
+    fn transform(&self, m: Matrix3) -> Vector3 {
+        let scaled_col1 = m.col1.scale(self.x);
+        let scaled_col2 = m.col2.scale(self.y);
+        let scaled_col3 = m.col3.scale(self.z);
+        return Vector3 {
+            x: scaled_col1.x + scaled_col2.x + scaled_col3.x,
+            y: scaled_col1.y + scaled_col2.y + scaled_col3.y,
+            z: scaled_col1.z + scaled_col2.z + scaled_col3.z,
         };
     }
 }
@@ -214,6 +234,39 @@ mod tests {
                 z: 9.0,
             };
             let result = v.scale(scalar);
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn can_transform_a_vector3() {
+            let v = Vector3 {
+                x: 1.0,
+                y: 2.0,
+                z: 3.0,
+            };
+            let m = Matrix3 {
+                col1: Vector3 {
+                    x: 1.0,
+                    y: 4.0,
+                    z: 7.0,
+                },
+                col2: Vector3 {
+                    x: 2.0,
+                    y: 5.0,
+                    z: 8.0,
+                },
+                col3: Vector3 {
+                    x: 3.0,
+                    y: 6.0,
+                    z: 9.0,
+                },
+            };
+            let expected = Vector3 {
+                x: 14.0,
+                y: 32.0,
+                z: 50.0,
+            };
+            let result = v.transform(m);
             assert_eq!(result, expected);
         }
     }
